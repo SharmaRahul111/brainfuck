@@ -2,9 +2,13 @@
 Everything related to the Brainfuck language
 
 ## Initial Goal for the interpreter in C
-- ...
+- working compiler ✅
+- dynamic file input
+- shell interpreter
+- polish for use
 - give helpful errors
-- ...
+- clean up the code
+- add helpful comments
 
 ## Other Goals
 - Brainfuck interpreter in C
