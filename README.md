@@ -9,6 +9,8 @@ Everything related to the Brainfuck language
 - give helpful errors
 - clean up the code
 - add helpful comments
+- try to use Make or CMake or something
+- release binaries
 
 ## Other Goals
 - Brainfuck interpreter in C
