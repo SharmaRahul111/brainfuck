@@ -1,14 +1,16 @@
 #include<stdio.h>
-unsigned char tape[30000];
+unsigned char tape[3000];
 short pointer = 0;
+char command[100] = "++++++++++++++++++++++++++++++++++";
+// char command[100] = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++";
+short code_pointer = 0;
+short loop_start = -1;
+short loop_end = -1;
 
 int match_opening_braces(short i);
 int match_closing_braces(short i);
+void error(int code);
 int main(){
-  char command[1000] = "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++";
-  short code_pointer = 0;
-  short loop_start = -1;
-  short loop_end = -1;
   while(command[code_pointer]!='\0'){
     switch(command[code_pointer]){
       case '+':
@@ -26,16 +28,21 @@ int main(){
       case '.':
         printf("%c", tape[pointer]);
       case ',':
-        scanf("%d", &tape[pointer]);
+        scanf("%c", &tape[pointer]);
       case '[':
-        // will implement later
+        if (!tape[pointer]) {
+          code_pointer = match_closing_braces(code_pointer);
+        }
         break;
       case ']':
-        // later
+        if (tape[pointer]) {
+          code_pointer = match_opening_braces(code_pointer);
+        }
         break;
       default:
         ; // ignore
     }
+    code_pointer++;
   }
   return 0;
 }
@@ -43,15 +50,37 @@ int main(){
 int match_opening_braces(short index){
   int nesting = 0;
   int i=index+1;
-  if (tape[index] == '[') {
-    while(true){
-      if (tape[index]=='[') {
-        nesting++;
-      } else if(tape[index]==']' && !nesting){
-
+  while(1){
+    if (command[i]=='[') {
+      nesting++;
+    } else if(command[i]==']'){
+      if (nesting) {
+        nesting--;
+      }else{
+        return i;
       }
-      
-      i++;
+    }else if (command[i]=='\0') {
+      error(1);
     }
+    i++;
+  }
+}
+
+int match_closing_braces(short index){
+  int nesting = 0;
+  int i=index-1;
+  while(1){
+    if (command[i]==']') {
+      nesting++;
+    } else if(command[i]=='['){
+      if (nesting) {
+        nesting--;
+      }else{
+        return i;
+      }
+    }else if(i<0){
+      error(1);
+    }
+    i--;
   }
 }

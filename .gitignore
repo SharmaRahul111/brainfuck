@@ -1,0 +1,6 @@
+# Compiled C binaries
+*.out
+*.exe
+*.o
+*.a
+*.so
