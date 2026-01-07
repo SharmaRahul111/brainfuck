@@ -6,7 +6,7 @@ Everything related to the Brainfuck language
   * [Interpreter Design](#interpreter-design)
   * [The instructions](#the-instructions)
 * [How my interpreter works](#how-my-interpreter-works)
-* [Initial Goal for the interpreter in C](initial-goal-for-the-interpreter-in-c)
+* [Initial Goal for the interpreter in C](#initial-goal-for-the-interpreter-in-c)
 * [Other Goals](#other-goals)
 * [References](#references)
 
