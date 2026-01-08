@@ -26,17 +26,16 @@ jobs:
         include:
           - os: windows-latest
             c_compiler: cl
-            cpp_compiler: cl
           - os: ubuntu-latest
             c_compiler: gcc
-            cpp_compiler: g++
           - os: ubuntu-latest
             c_compiler: clang
-            cpp_compiler: clang++
         exclude:
           - os: windows-latest
             c_compiler: gcc
           - os: windows-latest
+            c_compiler: clang
+          - os: ubuntu-latest
             c_compiler: clang
           - os: ubuntu-latest
             c_compiler: cl
@@ -68,7 +67,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         # Use matrix values to create unique names for each artifact
-        name: my-program-${{ matrix.os }}-${{ matrix.c_compiler }}
+        name: brainfuck-${{ matrix.os }}-${{ matrix.c_compiler }}
         path: |
           ${{ steps.strings.outputs.build-output-dir }}/brainfuck
           ${{ steps.strings.outputs.build-output-dir }}/Release/brainfuck.exe
