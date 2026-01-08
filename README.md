@@ -40,8 +40,8 @@ Brain fuck is m esoteric language that is turing complete so theoretically anyth
   - pre counting number of `+` or `-`
   - try to execute a block instead of byte by byte
 - add helpful comments
-- try to use Make or CMake or something
-- release binaries
+- try to use Make or CMake or something ✅
+- release binaries ✅
 
 ## Other Goals
 - Brainfuck interpreter in C ⏳
