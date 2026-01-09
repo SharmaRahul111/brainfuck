@@ -12,6 +12,7 @@ short loop_end = -1;
 
 // global controls
 int repl_mode = 0;
+int error = 0;
 int match_opening_braces(int);
 int match_closing_braces(int);
 void usage(char []);
@@ -26,6 +27,8 @@ int main(int argc, char *argv[]){
   } else if(argc == 2){
     if (!strcmp(argv[1], "-v") || !strcmp(argv[1], "--version")) {
       printf("%s\n", VERSION);
+    } else if (!strcmp(argv[1], "--about")) {
+      printf("Developer: Pramendra Sharma\nGithub: https://github.com/sharmarahul111\n" );
     } else if (!strcmp(argv[1], "-h") || !strcmp(argv[1], "--help") || argv[1][0] == '-') {
       usage(argv[0]);
     } else {
@@ -41,7 +44,7 @@ int main(int argc, char *argv[]){
     repl_mode = 1;
     repl();
   }
-  while(command[code_pointer]!='\0'){
+  while(command[code_pointer]!='\0' && error==0){
     // printf("\nCode pointer at: %d[%c]", code_pointer, command[code_pointer]);
     exec();
 
@@ -53,39 +56,45 @@ void exec(){
   switch(command[code_pointer]){
     case '+':
       tape[pointer]++;
-      // printf("\n[Increment value to %d[%d]", pointer, tape[pointer]);
       break;
     case '-':
       tape[pointer]--;
-      // printf("\n[Decrement value to %d]", pointer);
       break;
     case '>':
+      if (pointer!=30000) {
+        pointer++;
+      } else {
+        printf("Error: Maximum tape length exceeded\n");
+        error = 1;
+      }
       pointer++;
-      // printf("\n[Increment pointer to %d]", pointer);
       break;
     case '<':
-      pointer--;
-      // printf("\n[Decrement pointer to %d]", pointer);
+      if(pointer>0){
+        pointer--;
+      } else {
+        printf("Error: Tried to access negative memory block\n");
+        error = 1;
+        break;
+      }
       break;
     case '.':
-      // printf("\n[Output:%d]", tape[pointer]);
       printf("%c", tape[pointer]);
       break;
     case ',':
-      // printf("\n[Input:]");
       scanf(" %c", &tape[pointer]);
-      // printf("\n[Got:%d]", tape[pointer]);
       break;
     case '[':
       if (!tape[pointer]) {
         code_pointer = match_closing_braces(code_pointer);
-        // printf("\nNeeds code jump");
       }
       break;
     case ']':
       if (tape[pointer]) {
         code_pointer = match_opening_braces(code_pointer);
-        // printf("\nNeeds code jump");
+        if (code_pointer<=0) {
+          error = 1;
+        }
       }
       break;
     default:
@@ -97,8 +106,8 @@ void repl(){
   while(repl_mode){
     code_pointer = 0;
     printf(">>>");
-    scanf("%s", command);
-    while(command[code_pointer]!='\0'){
+    scanf(" %s", command);
+    while(command[code_pointer]!='\0' && error==0){
       exec();
 
       code_pointer++;
@@ -117,8 +126,9 @@ int match_opening_braces(int index){
       }else{
         return i;
       }
-    }else if (command[i]=='\0') {
-      printf("Unexpected end of file");
+    }else if (i<=0) {
+      printf("Error: Couldn't find corresponding '['\n");
+      error = 1;
       return i;
     }
     i--;
@@ -137,21 +147,25 @@ int match_closing_braces(int index){
       }else{
         return i;
       }
-    }else if(i<0){
-      printf("Unexpected end of file");
-      return 0;
+    }else if(command[i]=='\0'){
+      if (!repl_mode) {
+        printf("Error: Couldn't find corresponding ']'");
+      }
+      error = 1;
+      return i;
     }
     i++;
   }
 }
 void usage(char program_name[]){
   printf("Usage:\n");
-  printf("%s filename \texecute from a file\n", program_name);
+  printf("%s <file>   \texecute from a file\n", program_name);
   printf("%s          \trepl mode\n", program_name);
   printf("%s -h       \tsee usage\n", program_name);
   printf("%s --help   \tsee usage\n", program_name);
   printf("%s -v       \tversion number\n", program_name);
   printf("%s --version\tversion number\n", program_name);
+  printf("%s --about  \tabout author\n", program_name);
 
 }
 
@@ -168,3 +182,4 @@ void copy_to_memory(FILE *fp){
     i++;
   }
 }
+
