@@ -4,9 +4,12 @@ Everything related to the Brainfuck language
 ## Table of content
 * [What is brainfuck](#what-is-brainfuck)
   * [Interpreter Design](#interpreter-design)
-  * [The instructions](#the-instructions)
+  * [Instructions](#instructions)
+* [Features](#features)
+* [Usage](#usage)
+* [Issues](#issues)
 * [Initial Goal for the interpreter in C](#initial-goal-for-the-interpreter-in-c)
-* [Other Goals](#other-goals)
+* [Goals](#goals)
 * [References](#references)
 
 ## What is Brainfuck?
@@ -14,10 +17,12 @@ Brain fuck is m esoteric language that is turing complete so theoretically anyth
 
 ### Interpreter design
 - the size of the tape is taken `30000` in general
+- the program terminates if tape cell `-1` or `30001` is tried to access
 - each cell is `1 byte` in size storing from `0 to 255`
 - incrementing `255` gives `0`
 - decrementing `0` gives `255` _(making a full circle)_
-### The instructions
+### Instructions
+
 - `+` - increment the value of current cell by 1
 - `-` - decrement the value of current cell by 1
 - `>` - shifts the memory pointer to right by one
@@ -27,24 +32,34 @@ Brain fuck is m esoteric language that is turing complete so theoretically anyth
 - `.` - output the value of current cell in ASCII
 - `,` - take one byte input from user and store as integer
 
-## Initial Goal for the interpreter in C
-- working compiler ✅
-- dynamic file input ✅
-- shell interpreter ✅
-- polish for use
-- give helpful errors ✅
-- clean up the code
-- give error for accessing unavailable memory or expand the memory ✅
-- throw an error if wrapping causes overwrite
-- add optimizations like
-  - pre counting number of `+` or `-`
-  - try to execute a block instead of byte by byte
-- add helpful comments
-- try to use Make or CMake or something ✅
-- release binaries ✅
+## Features
+- execute a file via `$brainfuck <file>`
+- enter interactive mode (REPL) via `$brainfuck`
+- gives helpful errors
+  - Error: Couldn't open file: `<file>`
+  - Error: Maximum tape length exceeded
+  - Error: Tried to access negative tape cell
+  - Error: Couldn't find corresponding `[`
+  - Error: Couldn't find corresponding `]`
+- access the binaries in the release section
 
-## Other Goals
-- Brainfuck interpreter in C ⏳
+## Usage
+* Execute from a file `$brainfuck <file>`
+* Interactive shell (REPL mode) `$brainfuck`
+* Help menu `$brainfuck -h` or `$brainfuck --help`
+* Version number `$brainfuck -v` or `$brainfuck --version`
+* About author `$brainfuck --about`
+* Anything else shows the usage menu
+
+
+## Issues
+- currently user can't input newline `\n` intentionally at both `,` command and REPL
+- command length is hardcoded at 50KB
+- REPL prompt gets cut off at space character due to `%s` scanf behaviour of C
+- loops spanning multiple REPL prompts isn't possible (probably won't implement)
+
+## Goals
+- Brainfuck interpreter in C ✅
 - Brainfuck example programs
   _(Either code myself or make a program to do that)_
   - Add / subtract

@@ -1,10 +1,18 @@
+/*
+ * Issues to be fixed:
+ * - currently user can't input newline '\n' intentionally
+ *   at both ',' command and REPL
+ * - command length is hardcoded at 50KB
+ * - REPL prompt gets cut off at space character due to %s scanf behaviour of C
+ * - loops spanning multiple REPL prompts isn't possible [Won't Implement]
+ *
+ */
 #include<stdio.h>
 #include<string.h>
 #define VERSION "1.0.0"
+// Global variables
 unsigned char tape[30000];
 short pointer = 0;
-// Hard coded file length
-// Gotta implement dynamic allocation later
 char command[50000];
 short code_pointer = 0;
 short loop_start = -1;
@@ -13,18 +21,22 @@ short loop_end = -1;
 // global controls
 int repl_mode = 0;
 int error = 0;
+
+// Function prototypes
 int match_opening_braces(int);
 int match_closing_braces(int);
 void usage(char []);
 void copy_to_memory(FILE *);
 void exec();
 void repl();
+
 int main(int argc, char *argv[]){
   FILE *fp;
   if (argc>2) {
     usage(argv[0]);
     return 1;
   } else if(argc == 2){
+    // Handle flags and file input via cli
     if (!strcmp(argv[1], "-v") || !strcmp(argv[1], "--version")) {
       printf("%s\n", VERSION);
     } else if (!strcmp(argv[1], "--about")) {
@@ -34,24 +46,24 @@ int main(int argc, char *argv[]){
     } else {
       fp = fopen(argv[1], "r");
       if (fp == NULL) {
-        printf("Error opening file: %s\n", argv[1]);
+        printf("Error: Couldn't open file: %s\n", argv[1]);
       } else {
         copy_to_memory(fp);
       }
     }
   } else {
-    //REPL
+    //REPL mode
     repl_mode = 1;
     repl();
   }
   while(command[code_pointer]!='\0' && error==0){
-    // printf("\nCode pointer at: %d[%c]", code_pointer, command[code_pointer]);
     exec();
-
     code_pointer++;
   }
   return 0;
 }
+
+// The actual function that interprets the commands
 void exec(){
   switch(command[code_pointer]){
     case '+':
@@ -67,13 +79,12 @@ void exec(){
         printf("Error: Maximum tape length exceeded\n");
         error = 1;
       }
-      pointer++;
       break;
     case '<':
       if(pointer>0){
         pointer--;
       } else {
-        printf("Error: Tried to access negative memory block\n");
+        printf("Error: Tried to access negative tape cell\n");
         error = 1;
         break;
       }
@@ -82,6 +93,7 @@ void exec(){
       printf("%c", tape[pointer]);
       break;
     case ',':
+      // that " %c" extra space prevents from taking \n as the input from previous prompt
       scanf(" %c", &tape[pointer]);
       break;
     case '[':
@@ -106,7 +118,6 @@ void repl(){
     scanf("%s", command);
     while(command[code_pointer]!='\0' && error==0){
       exec();
-
       code_pointer++;
     }
   }
@@ -115,7 +126,11 @@ int match_opening_braces(int index){
   int nesting = 0;
   int i=index-1;
   while(1){
-    if (command[i]==']') {
+    if(i<0) {
+      printf("Error: Couldn't find corresponding '['\n");
+      error = 1;
+      return i;
+    } else if (command[i]==']') {
       nesting++;
     } else if(command[i]=='['){
       if (nesting) {
@@ -123,10 +138,6 @@ int match_opening_braces(int index){
       }else{
         return i;
       }
-    }else if (i<=0) {
-      printf("Error: Couldn't find corresponding '['\n");
-      error = 1;
-      return i;
     }
     i--;
   }
