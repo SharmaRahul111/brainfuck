@@ -7,4 +7,7 @@
 }
 div.shell {
   margin: 10px;
+  display: block;
+  width: 100vw;
+  height: 100vh;
 }
