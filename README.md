@@ -85,13 +85,13 @@ brainfuck --about
 
 ## Goals
 - Brainfuck interpreter in C ✅
+- Brainfuck interpreter for the web in JavaScript ⏳
 - Brainfuck example programs
   _(Either code myself or make a program to do that)_
   - Add / subtract
   - other algorithms like sum/factorial
    _(Not even sure how would I approach that)_
 - Brainfuck compiler in C
-- Brainfuck interpreter in Python/JS
 - Brainfuck interpreter in Brainfuck
 - Brainfuck explainer/debugger
 - Brainfuck targeting transpiler
