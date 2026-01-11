@@ -96,6 +96,7 @@ brainfuck --about
 - Brainfuck explainer/debugger
 - Brainfuck targeting transpiler
 - Brainfuck compiler in Assembly _(The last chad move)_ 😂😂
+- Brainfuck in logic gates 💥 
 
 ## References
 - [brainfuck.org](https://brainfuck.org/)
