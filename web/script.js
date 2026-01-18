@@ -4,6 +4,7 @@ root.height = innerHeight
 root.width = innerWidth
 // event handling
 root.addEventListener("click", () => inputBox.focus())
-root.addEventListener("keypress", e => {
-
+addEventListener("keypress", (e) => {
+  root.innerHTML += e.key
+  console.log(e.key, root.innerHTML)
 })
