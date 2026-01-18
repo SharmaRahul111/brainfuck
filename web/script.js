@@ -1,5 +1,5 @@
 const root = document.querySelector("div.shell");
-const inputBox = root.querySelector("input#focus")
+const inputBox = root.querySelector("#input")
 root.height = innerHeight
 root.width = innerWidth
 // event handling

@@ -16,6 +16,6 @@ div.shell {
   color: white;
 }
 
-input#focus {
-  display: none;
+textarea#input {
+  position: relative;
 }
