@@ -10,6 +10,7 @@ Everything related to the Brainfuck language
 * [Issues](#issues)
 * [Initial Goal for the interpreter in C](#initial-goal-for-the-interpreter-in-c)
 * [Goals](#goals)
+* [Web Interpreter](#web-interpreter)
 * [References](#references)
 
 ## What is Brainfuck?
@@ -97,7 +98,13 @@ brainfuck --about
 - Brainfuck targeting transpiler
 - Brainfuck compiler in Assembly _(The last chad move)_ 😂😂
 - Brainfuck in logic gates 💥 
-
+## Web Interpreter
+### The Plan
+- a functioning terminal
+  - proper character input (mobile support)
+  - backspace, other better keyboard support
+- the actual interpreter
+- binding the terminal and interpreter
 ## References
 - [brainfuck.org](https://brainfuck.org/)
 - [Tutorial and Interpreter (No cheating at first)](https://gist.github.com/roachhd/dce54bec8ba55fb17d3a)
