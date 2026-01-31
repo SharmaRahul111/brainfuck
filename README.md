@@ -14,7 +14,7 @@ Everything related to the Brainfuck language
 * [References](#references)
 
 ## What is Brainfuck?
-Brain fuck is m esoteric language that is turing complete so theoretically anything that a turing machine can compute can be computed in brainfuck. It's distinguishing feature ks that it only uses eight symbols for instructions (and ignores rest) to do anything achievable (given infinite time and memory).
+Brainfuck is a esoteric language that is turing complete so theoretically anything that a turing machine can compute can be computed in brainfuck. It's distinguishing feature ks that it only uses eight symbols for instructions (and ignores rest) to do anything achievable (given infinite time and memory).
 
 ### Interpreter design
 - the size of the tape is taken `30000` in general
